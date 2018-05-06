@@ -3,32 +3,10 @@ import Html.Attributes exposing (..)
 import Model exposing (..)
 import Html.Events exposing (..)
 import String exposing(..)
+import Update exposing (..)
 
 main = 
   Html.beginnerProgram { model = model, view = view, update = update }
-
-
--- Update
-type Msg 
-  = Name String
-  | Cursed Bool
-  | AC Int
-  | Invalid
-
-update : Msg -> Model -> Model
-update msg model = 
-  case msg of
-    Name name ->
-      { model | name = name }
-
-    Cursed cursed ->
-      { model | cursed = setBase model.cursed cursed }
-
-    AC ac ->
-      { model | ac = setBase model.ac ac }
-
-    Invalid ->
-      model
 
 -- View
 
@@ -71,4 +49,7 @@ entryStyle =
     , ("padding", "10px 0")
     , ("font-size", "18px")
     , ("text-align", "center")
+    , ("border", "2px solid #232323")
+    , ("border-radius", "4px")
+    , ("margin", "5px")
     ]
