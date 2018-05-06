@@ -47,26 +47,28 @@ view model =
         
         Err _ -> 
           Invalid
+
+    statField stat inputAttrs =
+      div [entryStyle]
+        [ text stat.name
+        , input inputAttrs []]
   in
-    div [] 
-      [ div [] 
-          [ text model.name
+    div [style [("width", "40%")]] 
+      [ div [entryStyle] 
+          [ text "Name"
           , input [ type_ "text", onInput Name ] []]
-      , div []
-          [ text model.cursed.name
-          , input [ type_ "checkbox", onCheck Cursed ] []]
-      , div []
-          [ text model.ac.name  -- If
-          , input [ type_ "number", onInput (tryConvert String.toInt AC)] []]]
+      , statField model.cursed 
+        [ type_ "checkbox", onCheck Cursed ]
+      , statField model.ac
+        [ type_ "number", onInput (tryConvert String.toInt AC)]
+      ]
 
 {-| Style to give the message for "field not present" -}
-nopeStyle : Attribute msg
-nopeStyle =
+entryStyle : Attribute msg
+entryStyle =
   style
     [ ("width", "100%")
     , ("padding", "10px 0")
-    , ("font-size", "2em")
+    , ("font-size", "18px")
     , ("text-align", "center")
-    , ("background-color", "#ff3333")
-    , ("color", "#e60000")
     ]
