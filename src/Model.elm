@@ -1,31 +1,33 @@
 module Model exposing (..)
-import Dict exposing (..)
+import Composite exposing (..)
 
--- Supported field types
-type FieldType 
-  = String_ String
-  | Int_ Int
-  | Bool_ Bool
+type alias Entry a = 
+  { a 
+  | name : String
+  , description : Maybe String }
 
-type alias Field = 
-  { name : String
-  , description : Maybe String 
-  , value : FieldType 
+type alias Stat a = Composite (Entry {}) a
+stat name desc val =
+  { name = name
+  , description = desc
+  , base = val
+  , modifiers = []
   }
+setBase stat newBase =
+  { stat | base = newBase }
 
 -- Model. Have to do this with map for now, as a custom model would require a different message type for each diff field
 -- However, CHANGE this if you end up being containing how to get/set within in a message. Lenses?
+-- Look at ".field thing" syntax in http://elm-lang.org/docs/records
 type alias Model = 
-  { fields : Dict String Field
+  { name : String
+  , cursed : Stat Bool
+  , ac : Stat Int
   }
 
 
 model = 
-  let
-    fieldEntry name desc val =
-      (name, Field name desc val)
-  in
-    { fields = Dict.fromList 
-        [ fieldEntry "Name" Nothing (String_ "Dan") 
-        , fieldEntry "Cursed" (Just "Whether your character is cursed") (Bool_ True)
-        , fieldEntry "AC" (Just "How hard it is to hit your character") (Int_ 10)]}
+  { name = "Dan"
+  , cursed = stat "Cursed" (Just "Whether your character is cursed") False
+  , ac = stat "AC" (Just "How hard your character is to hit") 10
+  }
