@@ -4,6 +4,8 @@ import Model exposing (..)
 import Html.Events exposing (..)
 import String exposing(..)
 import Update exposing (..)
+import Composite exposing (..)
+import CompositeViews exposing (..)
 
 main = 
   Html.beginnerProgram { model = model, view = view, update = update }
@@ -27,18 +29,28 @@ view model =
           Invalid
 
     statField stat inputAttrs =
+      let
+        attrs =
+          [ value (stat |> result |> toString)
+          , disabled (not <| List.isEmpty stat.modifiers)] -- If no modifiers, we can modify fine
+          ++ inputAttrs
+      in
+          
       div [entryStyle]
         [ text stat.name
-        , input inputAttrs []]
+        , input attrs []]
+    -- Could probably put various types of input arrs in here for when sheet gets bigger
   in
     div [style [("width", "40%")]] 
       [ div [entryStyle] 
           [ text "Name"
-          , input [ type_ "text", onInput Name ] []]
+          , input [ type_ "text", onInput Name, value model.name ] []]
       , statField model.cursed 
         [ type_ "checkbox", onCheck Cursed ]
       , statField model.ac
         [ type_ "number", onInput (tryConvert String.toInt AC)]
+        -- Demo field for now - this and expanding this will be put into statField
+      , breakdown [] model.ac -- Possibly use details/summary for this?
       ]
 
 {-| Style to give the message for "field not present" -}

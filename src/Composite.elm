@@ -13,10 +13,13 @@ type alias Composite a b =
     base : b
   , modifiers : List (Modifier b)}
 
-
-value c =
+{-| Calculate the overall result of a composite.
+  Starts at `base`, then applies each modifier in sequence
+-}
+result c =
   let 
     changes =
       List.map .change c.modifiers
   in
     List.foldl (\f x -> f x) c.base changes
+

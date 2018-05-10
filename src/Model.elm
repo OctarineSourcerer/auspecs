@@ -29,5 +29,13 @@ type alias Model =
 model = 
   { name = "Dan"
   , cursed = stat "Cursed" (Just "Whether your character is cursed") False
-  , ac = stat "AC" (Just "How hard your character is to hit") 10
+  , ac = 
+    { name = "AC"
+    , description = Just "Armor Class. How hard your character is to hit"
+    , base = 10
+    , modifiers = 
+      [ Modifier "Full Plate" "AC" ((+) 3) "+3"
+      , Modifier "Dodge Feat" "AC" ((+) 1) "+1"
+      , Modifier "Shieldy boi" "AC" ((+) 2) "+2"
+      ]}
   }
