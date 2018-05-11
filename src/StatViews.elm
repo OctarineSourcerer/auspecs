@@ -1,4 +1,4 @@
-module CompositeViews exposing (..)
+module StatViews exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 

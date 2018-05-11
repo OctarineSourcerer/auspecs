@@ -4,8 +4,8 @@ import Model exposing (..)
 import Html.Events exposing (..)
 import String exposing(..)
 import Update exposing (..)
-import Composite exposing (..)
-import CompositeViews exposing (..)
+import Stat exposing (..)
+import StatViews exposing (..)
 
 main = 
   Html.beginnerProgram { model = model, view = view, update = update }
@@ -31,7 +31,7 @@ view model =
     statField stat inputAttrs =
       let
         attrs =
-          [ value (stat |> result |> toString)
+          [ value (stat |> total |> toString)
           , disabled (not <| List.isEmpty stat.modifiers)] -- If no modifiers, we can modify fine
           ++ inputAttrs
       in

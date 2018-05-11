@@ -1,5 +1,6 @@
 module Update exposing (..)
-import Model exposing (Model, setBase)
+import Model exposing (Model)
+import Stat exposing (setBase)
 
 type Msg 
   = Name String

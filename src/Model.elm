@@ -1,20 +1,11 @@
 module Model exposing (..)
-import Composite exposing (..)
+import Stat exposing (..)
 
-type alias Entry a = 
+type alias Expandable a = 
   { a 
-  | name : String
-  , description : Maybe String }
+  | expanded : Bool }
 
-type alias Stat a = Composite (Entry {}) a
-stat name desc val =
-  { name = name
-  , description = desc
-  , base = val
-  , modifiers = []
-  }
-setBase stat newBase =
-  { stat | base = newBase }
+type alias ViewStat a = Expandable (Stat a)
 
 -- Model. Have to do this with map for now, as a custom model would require a different message type for each diff field
 -- However, CHANGE this if you end up being containing how to get/set within in a message. Lenses?
@@ -22,10 +13,10 @@ setBase stat newBase =
 type alias Model = 
   { name : String
   , cursed : Stat Bool
-  , ac : Stat Int
+  , ac : ViewStat Int
   }
 
-
+model : Model
 model = 
   { name = "Dan"
   , cursed = stat "Cursed" (Just "Whether your character is cursed") False
@@ -37,5 +28,6 @@ model =
       [ Modifier "Full Plate" "AC" ((+) 3) "+3"
       , Modifier "Dodge Feat" "AC" ((+) 1) "+1"
       , Modifier "Shieldy boi" "AC" ((+) 2) "+2"
-      ]}
+      ]
+    , expanded = False }
   }
