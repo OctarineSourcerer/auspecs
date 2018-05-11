@@ -8,6 +8,7 @@ type alias Modifier a =
   , change : a -> a
   , modString : String } -- Describing the modification, eg +3 or such
 
+-- Heh, could have possibly had Stat as Composite Int
 type alias Stat a =
   { name : String
   , description : Maybe String

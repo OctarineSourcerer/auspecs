@@ -2,23 +2,38 @@ module Update exposing (..)
 import Model exposing (Model)
 import Stat exposing (setBase)
 
-type Msg 
-  = Name String
-  | Cursed Bool
-  | AC Int
+type SheetString = Name
+type SheetBool = Cursed
+type SheetInt = AC | Strength
+type Field = SheetInt | SheetBool | SheetString
+
+type Msg
+  = SetString SheetString String
+  | SetBool SheetBool Bool
+  | SetInt  SheetInt Int
+  | Show Field Bool
   | Invalid
 
 update : Msg -> Model -> Model
 update msg model = 
   case msg of
-    Name name ->
-      { model | name = name }
+    SetString field value ->
+      case field of
+        Name -> { model | name = value }
 
-    Cursed cursed ->
-      { model | cursed = setBase model.cursed cursed }
+    SetBool field value ->
+      case field of
+        Cursed -> { model | cursed = setBase model.cursed value }
 
-    AC ac ->
-      { model | ac = setBase model.ac ac }
+    SetInt field value ->
+      case field of
+        AC -> 
+          { model | ac = setBase model.ac value }
+        Strength ->
+          { model | strength = setBase model.strength value }
+
+    Show field show ->
+      model -- TODO: Change the relevant "expanded" field to 'show'
 
     Invalid ->
       model

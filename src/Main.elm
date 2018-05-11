@@ -44,11 +44,11 @@ view model =
     div [style [("width", "40%")]] 
       [ div [entryStyle] 
           [ text "Name"
-          , input [ type_ "text", onInput Name, value model.name ] []]
+          , input [ type_ "text", onInput <| SetString Name, value model.name ] []]
       , statField model.cursed 
-        [ type_ "checkbox", onCheck Cursed ]
+        [ type_ "checkbox", onCheck <| SetBool Cursed ]
       , statField model.ac
-        [ type_ "number", onInput (tryConvert String.toInt AC)]
+        [ type_ "number", onInput (tryConvert String.toInt (SetInt AC))]
         -- Demo field for now - this and expanding this will be put into statField
       , breakdown [] model.ac -- Possibly use details/summary for this?
       ]
