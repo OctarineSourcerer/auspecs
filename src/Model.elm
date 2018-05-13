@@ -13,6 +13,8 @@ viewStat name desc val =
   , modifiers = []
   , expanded = False
   }
+setExpand viewstat expanded =
+  { viewstat | expanded = expanded }
 
 type alias Model = 
   { name : String

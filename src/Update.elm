@@ -5,7 +5,7 @@ import Stat exposing (setBase)
 type SheetString = Name
 type SheetBool = Cursed
 type SheetInt = AC | Strength
-type Field = SheetInt | SheetBool | SheetString
+type Field = Int_ SheetInt | Bool_ SheetBool | String_ SheetString
 
 type Msg
   = SetString SheetString String
@@ -33,7 +33,13 @@ update msg model =
           { model | strength = setBase model.strength value }
 
     Show field show ->
-      model -- TODO: Change the relevant "expanded" field to 'show'
+      case field of
+        Int_ intField ->
+          case intField of
+            AC -> { model | ac = Model.setExpand model.ac show }
+            Strength -> { model | strength = Model.setExpand model.strength show }
+        _ ->
+          model -- TODO: Change the relevant "expanded" field to 'show'
 
     Invalid ->
       model

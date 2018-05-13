@@ -28,29 +28,27 @@ view model =
         Err _ -> 
           Invalid
 
-    statField stat inputAttrs =
+    statField stat field inputAttrs =
       let
         attrs =
           [ value (stat |> total |> toString)
           , disabled (not <| List.isEmpty stat.modifiers)] -- If no modifiers, we can modify fine
           ++ inputAttrs
       in
-          
-      div [entryStyle]
-        [ text stat.name
-        , input attrs []]
+        div [entryStyle]
+          [ breakdown stat field [] ]
     -- Could probably put various types of input arrs in here for when sheet gets bigger
   in
     div [style [("width", "40%")]] 
       [ div [entryStyle] 
-          [ text "Name"
-          , input [ type_ "text", onInput <| SetString Name, value model.name ] []]
-      , statField model.cursed 
-        [ type_ "checkbox", onCheck <| SetBool Cursed ]
-      , statField model.ac
+        [ text "Name"
+        , input [ type_ "text", onInput <| SetString Name, value model.name ] []]
+      , div [entryStyle] 
+        [ text "Cursed"
+        , input [ type_ "checkbox", onCheck <| SetBool Cursed ] []]
+      , statField model.ac (Int_ AC)
         [ type_ "number", onInput (tryConvert String.toInt (SetInt AC))]
         -- Demo field for now - this and expanding this will be put into statField
-      , breakdown [] model.ac -- Possibly use details/summary for this?
       ]
 
 {-| Style to give the message for "field not present" -}
