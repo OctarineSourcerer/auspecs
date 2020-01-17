@@ -1,0 +1,51 @@
+{
+    "defaults": {
+        "stats": 10
+        // If something's not supplied, should be something in here (or... in the online db?)
+
+    },
+    "attributes": {
+        "stats": [
+            { "str": {
+                "name": "Strength",
+                "abbr": "STR",
+                "description": "How absolutely fuckin' buff you are"}},
+            { "dex": {
+                "name": "Dexterity",
+                "abbr": "DEX",
+                "description": "How flashy are ya, kid?"}},
+            { "cha": {
+                "name": "Charisma",
+                "abbr": "CHA",
+                "description": "Waggle them eyebrows."}}
+        ],
+
+        // Have the ability for stuff to express rolls! Hooo boy :D 
+        "equipment": [
+            { "#0": {
+                "name": "Sword of shenanigans",
+                "tags": ["weapon", "sword", "two-handed"],}},
+            { "#1": {
+                "name": "Cursed full plate armour",
+                "description": "An absolutely stunning set of plates",
+                // Okay, armour check penalty?! Excellente
+                "modifiers": [
+                    { "#0": {
+                        // They might not even need to have names
+                        "name": "Armor Check Penalty",
+                        "target": "stats.str", // Outright targets. 
+                        // If stats could also register to be targets, that'd be great. eg stats registering for stuff (specifically skills)
+                        // Or if you could register stats for it maybe.
+                        "effect": ["minus", 5] }},
+                    { "#1": {
+
+                    }}
+                ]
+            }},
+            { "#2": {
+                "name": "Full plate armour",
+                "description": "Because players are loot goblins and might have extras"
+            }}
+        ]
+    }
+}

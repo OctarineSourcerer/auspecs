@@ -1,0 +1,25 @@
+What does stuff in a sheet need to have?
+
+Things. Instance of, perhaps a difference of.
+Instancing of.
+
+Mockup:
+
+Half plate:
+    Description
+        Consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body.
+
+        As this is half plate, each individual plate has been chopped in half to save on costs.
+    Cost: 18gp
+    Weight: 40lb
+    Tags: armor, metal
+
+    Mods
+        AC.base = 18 + Dex.mod[<= 2] // = is an implicit set modifier. Happens first
+        Stealth Disadvantage
+
+Half plate x5
+    3.Description: "Okay this one took a beating to the shoulder"
+    4.Description: "A set of half plate bearing the regalia of the Arnaud house"
+     .Cost: 50gp
+    5.Description: "You took this one off of a goblin, didn't you?! You utter bastards"

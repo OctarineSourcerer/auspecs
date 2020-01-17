@@ -1,0 +1,227 @@
+---- how about a whole sheet mockup in this style?! ----
+-- System stuff, if necessary. Makes it easier for everyone else and everything else
+-- Let's say Pathfinder, for the sake of complexity and covering cases
+
+-- Miscellaneous.  Don't need to give types? They'll all follow a format
+-- either list all mods at the source, or all at the destination
+-- Compiler should give warnings on repeat abbreviations
+-- Does it need denoting if an empty group is an actual group? As opposed to an entry
+
+Info
+    Name
+    Player
+    Campaign
+    -- figure out what kind of sins you must commit to get Size working :P Might just be a real long definition, if there's not a pattern
+
+-- implicitly defines a kind of stat "type".
+Stat.mod = (Stat - 10) - 2
+Stats [Stat]
+    Strength
+        Abbrev: STR
+        Description: "Strength. Denotes how buff your character is, ie how many small toddlers it would take to overwhelm their physical prowess"
+        mods
+            MAB +Stat.mod
+            CMB +Stat.mod
+            Climb +Stat.mod
+            Swim +Stat.mod
+    DEX
+        mods -> +Stat.mod     --apply +Stat.mod to all in the group
+            AC -- How we gonna switch out mods, hmmmMMmMm?!
+            INIT
+            RAB
+            -- Skills
+            Acrobatics
+            "Disable Device"
+            "Escape Artist"
+            Fly
+            Ride
+            "Sleight of Hand"
+            Spellcraft
+            Stealth
+            Survival
+            Swim
+            "Use Magic Device"
+
+            Saves.Reflex
+
+    CON
+        mods -> +Stat.mod
+            Saves.Fortitude
+    INT
+        mods -> +Stat.mod
+            Appraise
+            Craft
+            Knowledge
+            Spellcraft
+    WIS
+        mods -> +Stat.mod
+            Heal
+            Perception
+            Profession
+            Sense Motive
+            Survival
+
+            Saves.Will
+    CHA
+        mods -> +Stat.mod
+            Bluff
+            Diplomacy
+            Disguise
+            Handle Animal
+            Intimidate
+            Perform
+            Use Magic Device
+
+HP
+    Max
+    Current[<= HP.Max]
+    Nonlethal
+    Hit Dice
+        Abbr: HD        -- Just have an abbreviation scheme? ie first-letters etc
+    -- Do some stats like these need to be here if they're 0? I'd say no
+    -- Damage Resistance
+    --    Abbr: DR
+    -- What the heck is SR?!
+
+Defence
+    Armor Class
+        Abbr: AC
+        = 10
+
+    Touch AC
+        = AC -[Armor]    -- how to specifically say "this is armor without the Armor mod" as opposed to searching for some value called Armor and subtracting it?
+
+    Flat-footed
+        = AC -[DEX]
+
+    Combat Maneuver Defence
+        Abbr: CMD
+    
+    -- The hell is FCMD?!
+
+    Saves
+        Fortitude
+        Reflex
+        Will
+
+Movement
+    Initiative
+
+    Land: 30
+    Fly
+    Swim
+    Burrow
+
+Attack Bonuses
+    Base Attack Bonus -- Let's just pretend the abbreviations are here
+    Melee Attack Bonus
+    Ranged Attack Bonus
+
+Skill = Skill.rank + (Skill.rank > 0 and Skill.class)? 3 : 0
+Skill.class = no
+Skills[Skill]
+    -- Acrobatics +DEX      << A demo of what could be done if we had it here instead
+    Acrobatics
+    Appraise
+    Bluff
+    Climb 
+    Craft
+    Diplomacy
+    "Disable Device"
+    Disguise
+    "Escape Artist"
+    Fly
+    Handle Animal
+    Heal
+    Intimidate
+    Knowledge
+    Linguistics
+    Perception
+    Perform
+    Profession
+    Ride
+    Sense Motive
+    "Sleight of Hand"
+    Spellcraft
+    Stealth
+    Survival
+    Swim
+    Use Magic Device
+
+Feats |0|  -- this number denotes the amount of empty USER spaces, not-filled-by-class
+
+------ Pretty much base Pathfinder character done -------
+
+---- Now, this would be in a different place, but I'm putting it here for posterity. These ADD to things on the sheet as opposed to replacing, denoted by [+]
+
+Human
+    Feats |+1|
+    -- Whatever the rest of human does
+
+Cleric[+]
+    Cleric
+        Deity
+            Name
+            Description
+            Favoured Weapon
+
+        Channel Energy
+            Energy = Positive|Negative
+            Power = 1d6
+        Aura
+        Domains|2|
+
+
+    Feats
+        Simple Weapon Proficiency
+        Light Armor Proficiency
+        Medium Armor Proficiency
+        Shield Proficiency
+        Deity."Favoured Weapon" Proficiency
+
+    Magic (Cleric)
+        Prepared Spells -- These should be able to draw from a given list, or manual. How do?!
+            Orisons |3|
+            Lvl1 |1|
+                Domain |1|
+        Saving Throw DC
+            = $"{10 + WIS.mod} + spell level"
+    
+    mods Cleric    -- indicates the source of the mod
+        Saves.Fortitude +2
+        Saves.Will +2
+
+Cleric lvl2
+    # Cleric    -- Includes previous cleric stuff
+
+    mods Cleric -- A [+] here would indicate that the mods are _incremental_ with anything indicating its mods were of type Cleric
+        BAB +1
+        Saves.Fortitude +3 --how do I replace saves n stuff from previous levels? Same source = replace, by default?
+        Saves.Will +3
+    
+    Magic (Cleric)
+        Prepared Spells
+            Orisons |4|
+            Lvl1 |2|
+                Domain |1|
+
+-- Actually wasn't sure whether to do this incrementally (eg just BAB +1 here adding onto previous), or total. I'm almost thinking it should be incremental, as long as the display can bundle up additions from the same mods. (so for a given type of mod, you should be able to say if it stacks)
+-- But for now it just replaces
+Cleric lvl3
+    # Cleric lvl2
+    "Channel Energy".Power = 2d6
+    Magic (Cleric)[+]
+        Prepared Spells
+            Lvl2 |1|
+                Domain |1|
+
+    mods Cleric
+        BAB +2
+        Saves.Fortitude +3
+        Saves.Reflex +1
+        Saves.Will +3
+
+Dex Damage Boi
+    mods -> +[STR]? +[DEX]
+        AC
+        Damage  -- I want anything tagged damage roll, really
